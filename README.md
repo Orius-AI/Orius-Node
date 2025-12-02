@@ -51,15 +51,7 @@ orius-network/
 └── firefox-extension/        # Firefox-specific files
 ```
 
-## Token Economics
 
-| Parameter | Value |
-|-----------|-------|
-| Token | $Orius (Token-2022) |
-| Mint Address | B1sPn76LWSWRnxSz8ES8TSnrohvBzTaKU4fFJcJBpump |
-| Minimum Claim | 100 $Orius |
-| Maximum Claim | 10,000 $Orius |
-| Daily Cap | 8,000 $Orius |
 
 ## API Endpoints
 
