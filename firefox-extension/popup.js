@@ -11,7 +11,7 @@ const CONFIG = {
   loadingDuration: 800,
   geoApiUrl: 'https://ipinfo.io/json',
   minClaimAmount: 100,
-  apiUrl: 'https://hexion-goal--canmacth.replit.app',
+  apiUrl: 'https://orius.io',
 };
 
 let heartbeatTimer = null;

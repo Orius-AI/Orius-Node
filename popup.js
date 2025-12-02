@@ -13,7 +13,7 @@ const CONFIG = {
   loadingDuration: 800,
   geoApiUrl: 'https://ipinfo.io/json',
   minClaimAmount: 100,
-  apiUrl: isPreviewMode ? '' : 'https://hexion-goal--canmacth.replit.app',
+  apiUrl: isPreviewMode ? '' : 'https://orius.io',
 };
 
 let heartbeatTimer = null;

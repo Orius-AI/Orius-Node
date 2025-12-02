@@ -8,7 +8,7 @@
 const CONFIG = {
   alarmName: 'orius-heartbeat',
   alarmPeriodMinutes: 0.167,
-  apiUrl: 'https://hexion-goal--canmacth.replit.app',
+  apiUrl: 'https://orius.io',
 };
 
 let sessionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
