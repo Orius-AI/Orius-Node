@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "Orius Network",
+  "version": "1.0.0",
+  "description": "Turn your browser into a compute node and earn $Orius tokens on Solana",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "orius@orius.io",
+      "strict_min_version": "109.0",
+      "data_collection_permissions": {
+        "required": ["locationInfo"],
+        "optional": ["browsingActivity", "websiteActivity", "technicalAndInteraction"]
+      }
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "alarms"
+  ],
+  "optional_permissions": [
+    "geolocation"
+  ],
+  "optional_host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Orius Node",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-script.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

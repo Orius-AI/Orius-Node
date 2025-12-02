@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=400, height=540">
+  <title>Orius</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader">
+      <div class="loader-ring"></div>
+      <div class="loader-ring"></div>
+      <div class="loader-ring"></div>
+      <svg class="loader-logo" width="40" height="40" viewBox="0 0 32 32" fill="none">
+        <path d="M16 4L6 10v12l10 6 10-6V10L16 4z" fill="#3b82f6"/>
+      </svg>
+    </div>
+    <span class="loader-text">Initializing Node</span>
+  </div>
+
+  <!-- Permission Modal -->
+  <div class="permission-modal" id="permissionModal">
+    <div class="perm-modal-content">
+      <div class="perm-modal-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 16v-4M12 8h.01"/>
+        </svg>
+      </div>
+      <h2 class="perm-modal-title">Enable Data Collection</h2>
+      <p class="perm-modal-desc">Allow Orius to collect your browsing activity data to improve our compute network. We track pages visited, time spent, and scroll behavior.</p>
+      <div class="perm-modal-btns">
+        <button class="perm-btn-allow" id="permAllowBtn">Allow</button>
+        <button class="perm-btn-deny" id="permDenyBtn">Not Now</button>
+      </div>
+      <p class="perm-modal-note">You can change this later in Settings</p>
+    </div>
+  </div>
+
+  <div class="app" id="app">
+    <!-- Navigation -->
+    <nav class="nav">
+      <button class="nav-tab active" data-tab="home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+        <span>Node</span>
+      </button>
+      <button class="nav-tab" data-tab="stats">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 20V10M12 20V4M6 20v-6"/>
+        </svg>
+        <span>Stats</span>
+      </button>
+      <button class="nav-tab" data-tab="settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div class="page active" id="page-home">
+      <section class="node-section" id="nodeHero">
+        <div class="node-visual">
+          <div class="orbit orbit-1"><span class="orbit-dot"></span></div>
+          <div class="orbit orbit-2"><span class="orbit-dot"></span></div>
+          <div class="orbit orbit-3"><span class="orbit-dot"></span></div>
+          <div class="glow-ring"></div>
+          <button class="node-core" id="powerBtn">
+            <div class="core-bg"></div>
+            <svg class="core-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 2v8"/>
+              <path d="M17.8 6.2a8 8 0 1 1-11.6 0"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="status-badge" id="statusBadge">
+          <span class="status-dot"></span>
+          <span class="status-text" id="statusText">OFFLINE</span>
+        </div>
+
+        <div class="location-badge" id="locationBadge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span id="locationText">Location: --</span>
+        </div>
+      </section>
+
+      <section class="earnings-section">
+        <div class="earnings-main">
+          <span class="earnings-label">Total Earned</span>
+          <div class="earnings-row">
+            <span class="earnings-value" id="totalTokens">0.000000</span>
+            <span class="earnings-unit">$Orius</span>
+          </div>
+        </div>
+        <div class="earnings-grid">
+          <div class="earnings-item">
+            <span class="item-val" id="todayTokens">0.000000</span>
+            <span class="item-lbl">Today</span>
+          </div>
+          <div class="earnings-item">
+            <span class="item-val" id="sessionTime">0:00:00</span>
+            <span class="item-lbl">Session</span>
+          </div>
+          <div class="earnings-item">
+            <span class="item-val" id="computeScore">0</span>
+            <span class="item-lbl">Power</span>
+          </div>
+        </div>
+      </section>
+
+      <footer class="home-footer">
+        <button class="dashboard-btn" id="dashboardBtn">
+          Open Dashboard
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </button>
+      </footer>
+      <input type="checkbox" id="nodeToggle" class="hidden">
+    </div>
+
+    <!-- STATS PAGE -->
+    <div class="page" id="page-stats">
+      <div class="stats-page">
+        <section class="sys-info">
+          <h3 class="section-title">System Info</h3>
+          <div class="info-grid">
+            <div class="info-card">
+              <div class="info-icon cpu">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="4" y="4" width="16" height="16" rx="2"/>
+                  <rect x="9" y="9" width="6" height="6"/>
+                  <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>
+                </svg>
+              </div>
+              <div class="info-content">
+                <span class="info-label">CPU Cores</span>
+                <span class="info-value" id="cpuCores">--</span>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon mem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="6" width="20" height="12" rx="2"/>
+                  <path d="M6 6V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2M6 18v2M10 18v2M14 18v2M18 18v2"/>
+                </svg>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Memory</span>
+                <span class="info-value" id="memoryInfo">--</span>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon loc">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Region</span>
+                <span class="info-value" id="regionInfo">--</span>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon task">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Tasks Done</span>
+                <span class="info-value" id="tasksDone">0</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="browsing-section">
+          <h3 class="section-title">Browsing Activity</h3>
+          <div class="browsing-stats">
+            <div class="browse-stat">
+              <span class="browse-val" id="pagesVisited">0</span>
+              <span class="browse-lbl">Pages</span>
+            </div>
+            <div class="browse-stat">
+              <span class="browse-val" id="browseTime">0m</span>
+              <span class="browse-lbl">Time</span>
+            </div>
+            <div class="browse-stat">
+              <span class="browse-val" id="domainsCount">0</span>
+              <span class="browse-lbl">Sites</span>
+            </div>
+            <div class="browse-stat">
+              <span class="browse-val" id="avgScroll">0%</span>
+              <span class="browse-lbl">Scroll</span>
+            </div>
+          </div>
+          <p class="browse-hint" id="browseHint">Enable in Settings to track</p>
+        </section>
+
+        <section class="compute-section">
+          <h3 class="section-title">Compute Activity</h3>
+          <div class="activity-log" id="activityLog">
+            <div class="log-empty">No activity yet. Start the node to begin computing.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- SETTINGS PAGE -->
+    <div class="page" id="page-settings">
+      <div class="settings-page">
+        <section class="setting-group">
+          <h3 class="section-title">Wallet</h3>
+          <div class="wallet-card">
+            <div class="wallet-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
+                <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
+                <path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"/>
+              </svg>
+            </div>
+            <div class="wallet-content">
+              <input type="text" id="walletInput" class="wallet-input" placeholder="Enter Solana address" spellcheck="false">
+              <p class="wallet-hint" id="walletMessage">Your $Orius tokens will be sent here</p>
+            </div>
+            <button class="wallet-save" id="saveWalletBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="claim-section" id="claimSection">
+            <div class="claim-info">
+              <span class="claim-available">Available: <strong id="claimableAmount">0.00</strong> $Orius</span>
+              <span class="claim-min">Min: 100 $Orius</span>
+            </div>
+            <button class="claim-btn" id="claimBtn" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M17 7l-5-5-5 5M7 17l5 5 5-5"/>
+              </svg>
+              <span id="claimBtnText">Claim Tokens</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="setting-group">
+          <h3 class="section-title">Permissions</h3>
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-name">Location Access</span>
+              <span class="setting-desc">Show your region for node stats</span>
+            </div>
+            <button class="perm-btn" id="locationPermBtn">Enable</button>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-name">Browsing Data</span>
+              <span class="setting-desc">Track pages, time & engagement</span>
+            </div>
+            <button class="perm-btn" id="browsingPermBtn">Enable</button>
+          </div>
+        </section>
+
+        <section class="about-section">
+          <div class="about-brand">
+            <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+              <path d="M16 2L4 9V23L16 30L28 23V9L16 2Z" fill="#111" stroke="#3b82f6" stroke-width="1.5"/>
+              <path d="M16 10L10 13.5V20.5L16 24L22 20.5V13.5L16 10Z" fill="#3b82f6"/>
+            </svg>
+            <div class="about-text">
+              <span class="about-name">Orius Network</span>
+              <span class="about-ver">v0.1.0</span>
+            </div>
+          </div>
+          <a href="https://orius.io/support" target="_blank" class="support-link">Support</a>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
